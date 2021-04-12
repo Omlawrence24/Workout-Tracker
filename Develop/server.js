@@ -46,7 +46,7 @@ app.get("/cardio", (req, res) => {
     });
 });
 
-app.post("/submit", ({ body }, res) => {
+app.post("/excercise", ({ body }, res) => {
   db.Excercise.create(body)
     .then(({ _id }) => db.Excercise.findOneAndUpdate({}, { $push: { Excercise: _id } }, { new: true }))
     .then(dbExcercise => {
@@ -57,19 +57,19 @@ app.post("/submit", ({ body }, res) => {
     });
 });
 
-app.get("/populateduser", (req, res) => {
-  // TODO
-  // =====
-  // Write the query to grab the documents from the User collection,
-  UserSchema.methods.populate = async function () {
-   let name = this.name
-   let notes = this.notes
-   .populate("Note");
-   return `Name${name}Title${notes.title}Body${notes.body}`
-  }
-  // and populate them with any associated Notes.
-  // TIP: Check the models out to see how the Notes refers to the User
-});
+// app.get("/populateduser", (req, res) => {
+//   // TODO
+//   // =====
+//   // Write the query to grab the documents from the User collection,
+//   UserSchema.methods.populate = async function () {
+//    let name = this.name
+//    let notes = this.notes
+//    .populate("Note");
+//    return `Name${name}Title${notes.title}Body${notes.body}`
+//   }
+//   // and populate them with any associated Notes.
+//   // TIP: Check the models out to see how the Notes refers to the User
+// });
 
 // Start the server
 app.listen(PORT, () => {
