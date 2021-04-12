@@ -26,7 +26,7 @@ db.Excercise.create({ type: "Jogging" })
     console.log(message);
   });
 
-app.get("/excercise", (req, res) => {
+app.get("/stats", (req, res) => {
   db.Excercise.find({})
     .then(dbExcercise => {
       res.json(dbExcercise);
@@ -37,9 +37,9 @@ app.get("/excercise", (req, res) => {
 });
 
 app.get("/cardio", (req, res) => {
-  db.User.find({})
-    .then(dbUser => {
-      res.json(dbUser);
+  db.Cardio.find({})
+    .then(dbCardio => {
+      res.json(dbCardio);
     })
     .catch(err => {
       res.json(err);
@@ -47,10 +47,10 @@ app.get("/cardio", (req, res) => {
 });
 
 app.post("/submit", ({ body }, res) => {
-  db.Note.create(body)
-    .then(({ _id }) => db.User.findOneAndUpdate({}, { $push: { notes: _id } }, { new: true }))
-    .then(dbUser => {
-      res.json(dbUser);
+  db.Excercise.create(body)
+    .then(({ _id }) => db.Excercise.findOneAndUpdate({}, { $push: { Excercise: _id } }, { new: true }))
+    .then(dbExcercise => {
+      res.json(dbExcercise);
     })
     .catch(err => {
       res.json(err);
