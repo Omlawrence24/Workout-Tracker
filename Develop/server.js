@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const PORT = process.env.PORT || 3000;
 
 const db = require("./models");
-const { User } = require("./models");
+const { Excercise } = require("./models");
 
 const app = express();
 
@@ -18,18 +18,18 @@ app.use(express.static("public"));
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/populatedb", { useNewUrlParser: true });
 
-db.User.create({ name: "Ernest Hemingway" })
-  .then(dbUser => {
-    console.log(dbUser);
+db.Excercise.create({ type: "Jogging" })
+  .then(dbExcercise => {
+    console.log(dbExcercise);
   })
   .catch(({ message }) => {
     console.log(message);
   });
 
-app.get("/notes", (req, res) => {
-  db.Note.find({})
-    .then(dbNote => {
-      res.json(dbNote);
+app.get("/", (req, res) => {
+  db.Excercise.find({})
+    .then(dbExcercise => {
+      res.json(dbExcercise);
     })
     .catch(err => {
       res.json(err);
