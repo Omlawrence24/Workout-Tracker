@@ -26,7 +26,7 @@ db.Excercise.create({ type: "Jogging" })
     console.log(message);
   });
 
-app.get("/", (req, res) => {
+app.get("/excercise", (req, res) => {
   db.Excercise.find({})
     .then(dbExcercise => {
       res.json(dbExcercise);
@@ -36,7 +36,7 @@ app.get("/", (req, res) => {
     });
 });
 
-app.get("/user", (req, res) => {
+app.get("/cardio", (req, res) => {
   db.User.find({})
     .then(dbUser => {
       res.json(dbUser);
