@@ -2,11 +2,11 @@ const express = require("express");
 const logger = require("morgan");
 const mongoose = require("mongoose");
 const mongo = require("mongo");
-
+const path = require("path");
 const PORT = process.env.PORT || 3000;
 
-const db = require("./models");
-const Excercise = require("./models");
+// const db = require("./models");
+const { Exercise, Cardio } = require("./models");
 
 const app = express();
 
@@ -19,7 +19,7 @@ app.use(express.static("public"));
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workoutdb", { useNewUrlParser: true });
 
-db.Excercise.create({ type: "Jogging" })
+Exercise.create({ type: "Jogging" })
   .then(dbExcercise => {
     console.log(dbExcercise);
   })
@@ -27,8 +27,19 @@ db.Excercise.create({ type: "Jogging" })
     console.log(message);
   });
 
-app.get("/stats", (req, res) => {
-  db.Excercise.find({})
+
+app.get("/",(req, res) => { 
+    res.sendFile(path.join(__dirname, "./public/index.html"))
+})
+app.get("/stats",(req, res) => { 
+    res.sendFile(path.join(__dirname, "./public/stats.html"))
+})
+app.get("/exercise",(req, res) => { 
+    res.sendFile(path.join(__dirname, "./public/exercise.html"))
+})
+
+app.get("/api/stats", (req, res) => {
+  Exercise.find({})
     .then(dbExcercise => {
       res.json(dbExcercise);
     })
@@ -37,8 +48,8 @@ app.get("/stats", (req, res) => {
     });
 });
 
-app.get("/cardio", (req, res) => {
-  db.Cardio.find({})
+app.get("/api/cardio", (req, res) => {
+  Cardio.find({})
     .then(dbCardio => {
       res.json(dbCardio);
     })
@@ -47,16 +58,30 @@ app.get("/cardio", (req, res) => {
     });
 });
 
-app.post("/excercise", ({ body }, res) => {
-  db.Excercise.create(body)
-    .then(({ _id }) => db.Excercise.findOneAndUpdate({}, { $push: { Excercise: _id } }, { new: true }))
-    .then(dbExcercise => {
-      res.json(dbExcercise);
+app.post("/api/exercise", ({ body }, res) => {
+  Exercise.create(body)
+   
+    .then(dbExercise => {
+      res.json(dbExercise);
     })
     .catch(err => {
       res.json(err);
     });
 });
+
+
+app.post("/api/exercise", ({ body }, res) => {
+    Exercise.create(body)
+      .then(({ _id }) => Exercise.findOneAndUpdate({}, { $push: { Exercise: _id } }, { new: true }))
+      .then(dbExercise => {
+        res.json(dbExercise);
+      })
+      .catch(err => {
+        res.json(err);
+      });
+  });
+  
+
 
 // app.get("/populateduser", (req, res) => {
 //   // TODO
