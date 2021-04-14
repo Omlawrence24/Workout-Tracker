@@ -6,7 +6,7 @@ const path = require("path");
 const PORT = process.env.PORT || 3000;
 
 // const db = require("./models");
-const { Exercise, Cardio } = require("./models");
+const { Workouts } = require("./models");
 
 const app = express();
 
@@ -19,83 +19,81 @@ app.use(express.static("public"));
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workoutdb", { useNewUrlParser: true });
 
-Exercise.create({ type: "Jogging" })
-  .then(dbExcercise => {
-    console.log(dbExcercise);
-  })
-  .catch(({ message }) => {
-    console.log(message);
-  });
+// Workouts.create({ type: "Jogging" })
+//   .then(dbExcercise => {
+//     console.log(dbExcercise);
+//   })
+//   .catch(({ message }) => {
+//     console.log(message);
+//   });
 
 
-app.get("/",(req, res) => { 
-    res.sendFile(path.join(__dirname, "./public/index.html"))
-})
-app.get("/stats",(req, res) => { 
-    res.sendFile(path.join(__dirname, "./public/stats.html"))
-})
-app.get("/exercise",(req, res) => { 
-    res.sendFile(path.join(__dirname, "./public/exercise.html"))
-})
+// //   these are the routes that navigate the pages
+// app.get("/",(req, res) => { 
+//     res.sendFile(path.join(__dirname, "./public/index.html"))
+// })
 
-app.get("/api/stats", (req, res) => {
-  Exercise.find({})
-    .then(dbExcercise => {
-      res.json(dbExcercise);
-    })
-    .catch(err => {
-      res.json(err);
-    });
-});
+// app.get("/workout",(req, res) => { 
+//     res.sendFile(path.join(__dirname, "./public/workout.js"))
+// })
 
-app.get("/api/cardio", (req, res) => {
-  Cardio.find({})
-    .then(dbCardio => {
-      res.json(dbCardio);
-    })
-    .catch(err => {
-      res.json(err);
-    });
-});
-
-app.post("/api/exercise", ({ body }, res) => {
-  Exercise.create(body)
-   
-    .then(dbExercise => {
-      res.json(dbExercise);
-    })
-    .catch(err => {
-      res.json(err);
-    });
-});
+// app.get("/stats",(req, res) => { 
+//     res.sendFile(path.join(__dirname, "./public/stats.html"))
+// })
+// app.get("/exercise",(req, res) => { 
+//     res.sendFile(path.join(__dirname, "./public/exercise.html"))
+// })
 
 
-app.post("/api/exercise", ({ body }, res) => {
-    Exercise.create(body)
-      .then(({ _id }) => Exercise.findOneAndUpdate({}, { $push: { Exercise: _id } }, { new: true }))
-      .then(dbExercise => {
-        res.json(dbExercise);
-      })
-      .catch(err => {
-        res.json(err);
-      });
-  });
-  
 
+// // these routes naviagtes the data and how it is recieved or posted 
 
-// app.get("/populateduser", (req, res) => {
-//   // TODO
-//   // =====
-//   // Write the query to grab the documents from the User collection,
-//   UserSchema.methods.populate = async function () {
-//    let name = this.name
-//    let notes = this.notes
-//    .populate("Note");
-//    return `Name${name}Title${notes.title}Body${notes.body}`
-//   }
-//   // and populate them with any associated Notes.
-//   // TIP: Check the models out to see how the Notes refers to the User
+// // displays the work out dashboard 
+// app.get("/api/stats", (req, res) => {
+//   Workouts.find({})
+//     .then(dbExcercise => {
+//       res.json(dbExcercise);
+//     })
+//     .catch(err => {
+//       res.json(err);
+//     });
 // });
+
+// // displays all previous workouts 
+// app.get("/api/workouts", (req, res) => {
+//   Workouts.find({})
+//     .then(dbCardio => {
+//       res.json(dbCardio);
+//     })
+//     .catch(err => {
+//       res.json(err);
+//     });
+// });
+
+// // creates all added workouts 
+// app.get("/api/exercise", ({ body }, res) => {
+//   Workouts.create(body)
+   
+//     .then(dbExercise => {
+//       res.json(dbExercise);
+//     })
+//     .catch(err => {
+//       res.json(err);
+//     });
+// });
+
+// // updates one?
+// app.put("/api/exercise", ({ body }, res) => {
+//     Workouts.create(body)
+//       .then(({ _id }) => Workouts.Update({}, { $set: { Workouts: _id } }, { new: true }))
+//       .then(dbExercise => {
+//         res.json(dbExercise);
+//       })
+//       .catch(err => {
+//         res.json(err);
+//       });
+//   });
+  
 
 // Start the server
 app.listen(PORT, () => {
