@@ -30,9 +30,11 @@ const WorkoutsSchema = new Schema({
     },
     cardio: {
         type: String,
-    }
+    },
 
-    
+    cardio_duration: {
+        type: Number,
+    }
 
 });
 
