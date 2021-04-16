@@ -15,7 +15,7 @@ router.get("/", (req, res) => {
         });
 });
 
-// ?creating a new one 
+// creating a new one exercise 
 router.post("/", (req, res) => {
     Workouts.create({})
         .then(dbExcercise => {
@@ -28,6 +28,8 @@ router.post("/", (req, res) => {
         });
 });
 
+
+// delet work out if needed
 router.delete("/", (req, res) =>{
 Workouts.findByIdAndDelete(req.body.id)
 .then(() => res.json(true) )
@@ -35,7 +37,7 @@ Workouts.findByIdAndDelete(req.body.id)
 
 })
 
-
+//  updating an exercise 
 router.put("/:id", (req, res) => {
     console.log("hello")
   
@@ -59,7 +61,7 @@ router.put("/:id", (req, res) => {
         });
 });
 
-
+// the aggregated intity returns range 
 router.get("/range", (req, res) => {
     
     Workouts.aggregate([{
