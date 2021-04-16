@@ -1,22 +1,10 @@
 
-
-const mongoose = require("mongoose");
-const path = require("path");
-
-app.use(logger("dev"));
-
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-
-app.use(express.static("public"));
-
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workoutdb", { useNewUrlParser: true });
-
-
+const router = require('express').Router();
+const { Workouts } = require('../../models');
 
 
 // create a workout "CONTINUE WORKOUT"
-app.put("/api/exercise", ({ body }, res) => {
+router.put("/id", ({ body }, res) => {
     Workouts.create(body)
         .then(({ _id }) => Workouts.Update({}, { $set: { Workouts: _id } }, { new: true }))
         .then(dbExercise => {
@@ -28,7 +16,7 @@ app.put("/api/exercise", ({ body }, res) => {
 });
 
 // create a workout "New WORKOUT"
-app.post("/api/exercise", ({ body }, res) => {
+router.post("/api/exercise", ({ body }, res) => {
     Workouts.create(body)
 
         .then(dbExercise => {
@@ -40,7 +28,7 @@ app.post("/api/exercise", ({ body }, res) => {
 });
 
 // get all exercises 
-app.get("/api/exercise", (req, res) => {
+router.get("/api/exercise", (req, res) => {
     Workouts.find({})
         .then(dbCardio => {
             res.json(dbCardio);
@@ -49,3 +37,5 @@ app.get("/api/exercise", (req, res) => {
             res.json(err);
         });
 });
+
+module.exports = router;

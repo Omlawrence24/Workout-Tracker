@@ -1,19 +1,7 @@
+const router = require('express').Router();
+const { Workouts, Routine } = require('../../models');
 
-const mongoose = require("mongoose");
-const path = require("path");
-
-app.use(logger("dev"));
-
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-
-app.use(express.static("public"));
-
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workoutdb", { useNewUrlParser: true });
-
-
-
-app.post("/api/stats", (req, res) => {
+router.post("/stats", (req, res) => {
     Workouts.create({ type: "Jogging" })
         .then(dbExcercise => {
             console.log(dbExcercise);
@@ -26,12 +14,14 @@ app.post("/api/stats", (req, res) => {
 
 
 // displays the work out dashboard "MY DASHBOARD"
-app.get("/api/stats", (req, res) => {
-    Workouts.findAll({})
-        .then(dbExcercise => {
-            res.json(dbExcercise);
+router.get("/stats", (req, res) => {
+    Routine.findAll({})
+        .then(dbRoutine => {
+            res.json(dbRoutine);
         })
         .catch(err => {
             res.json(err);
         });
 });
+
+module.exports = router;

@@ -1,15 +1,17 @@
-const express = require("express");
-const logger = require("morgan");
-const mongoose = require("mongoose");
-const mongo = require("mongo");
 const router = require('express').Router();
-const workoutsRoutes = require('./workoutsRoutes');
+const apiRoutes = require('./api');
+const path = require("path")
+
+router.use("/api", apiRoutes);
+
+router.get("/exercise", (req, res) =>{
+    res.sendFile(path.join(__dirname, "../public/exercise.html"))
+})
 
 
-const app = express();
+router.get("/stats", (req, res) =>{
+    res.sendFile(path.join(__dirname, "../public/stats.html"))
+})
 
-app.use(logger("dev"));
 
-app.use('/workouts', workoutsRoutes);
-
-module.exports = ("Workouts", workoutsRoutes);
+module.exports = router;

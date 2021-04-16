@@ -1,40 +1,56 @@
 const mongoose = require("mongoose");
-const mongo = require("mongo");
 
 const Schema = mongoose.Schema;
 
 const WorkoutsSchema = new Schema({
-    type: {
-        type: String,
+    //we need a way to tie a workout to a date (date field?)
 
-    },
-    name: {
-        type: String,
-
-    },
-    duration: {
-        type: Number,
-
-    },
-    weight: {
-        type: Number,
-
-    },
-    reps: {
-        type: Number,
-
-    },
-    sets: {
-        type: Number,
-
-    },
-    cardio: {
-        type: String,
+    //we need to alter our workouts schema a tiny bit to allow 
+    //for multiple sets of type, name, duration, etc
+    //example: jogging and then doing squats
+    date: {
+        type: Date,
+        default: () => new Date()
     },
 
-    cardio_duration: {
-        type: Number,
-    }
+    exercises: [{
+        type: {
+            type: String
+        },
+        name: {
+            type: String,
+
+        },
+        duration: {
+            type: Number,
+
+        },
+
+        distance: {
+            type: Number,
+
+        },
+        weight: {
+            type: Number,
+
+        },
+        reps: {
+            type: Number,
+
+        },
+        sets: {
+            type: Number,
+
+        },
+        cardio: {
+            type: String,
+        },
+
+        cardio_duration: {
+            type: Number,
+        }
+
+    }]
 
 });
 
