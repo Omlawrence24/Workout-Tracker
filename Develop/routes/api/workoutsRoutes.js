@@ -66,9 +66,16 @@ router.get("/range", (req, res) => {
     Workouts.aggregate([{
        
        $addFields: {
-        totalDuration: {$sum: "$exercises.duraion"},
+        totalDuration: {$sum: "$exercises.duration"},
        },
     },
+    {
+        $addFields: {
+            totalWorkout: { $add:  "$totalDuration" },
+        }
+    }
+
+
     ])
         .limit(5)
         .sort({_id: 1})
