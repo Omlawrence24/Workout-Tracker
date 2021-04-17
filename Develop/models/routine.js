@@ -20,7 +20,7 @@ const RoutineSchema = new Schema({
     },
     name: {
         type: String,
-
+ 
     },
     duration: {
         type: Number,
