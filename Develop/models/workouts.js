@@ -10,7 +10,7 @@ const WorkoutsSchema = new Schema({
     //example: jogging and then doing squats
     date: {
         type: Date,
-        default: () => new Date()
+        default: Date()
     },
 
     exercises: [{

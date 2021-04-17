@@ -3,7 +3,6 @@ const router = require('express').Router();
 const Workouts  = require("../../models/workouts.js");
 
 router.get("/", (req, res) => {
-    console.log("hello")
   
     Workouts.find({})
         .then(dbsess => {
@@ -15,7 +14,7 @@ router.get("/", (req, res) => {
         });
 });
 
-// creating a new one exercise 
+// creating a new exercise
 router.post("/", (req, res) => {
     Workouts.create({})
         .then(dbExcercise => {
