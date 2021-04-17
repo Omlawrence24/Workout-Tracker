@@ -71,9 +71,9 @@ router.get("/range", (req, res) => {
     },
     {
         $addFields: {
-            totalWorkout: { $add:  "$totalDuration" },
-        }
-    }
+            totalWorkout: { $add: "$totalDuration" },
+        },
+    },
 
 
     ])
